@@ -4,33 +4,35 @@
 
 MOpenGL::MOpenGL(CDialog* pMainWindow)
 {
-	CDC* m_pDC = new CClientDC(pMainWindow);
+	CDC* m_pDC = new CClientDC(pMainWindow->GetDlgItem(IDC_VisualWindow));
 	if (m_pDC == NULL)
 	{
 		AfxMessageBox(CString("Error Obtaining DC"));
 		return;
 	}
 
+	glewInit();
+
 	PIXELFORMATDESCRIPTOR pfd =
 	{
-		sizeof(PIXELFORMATDESCRIPTOR),
-		1,
-		PFD_DRAW_TO_WINDOW |                // support window
-		PFD_SUPPORT_OPENGL |                   // support OpenGL
-		PFD_DOUBLEBUFFER,                        // double buffered
-		PFD_TYPE_RGBA,
-		24,
-		0, 0, 0, 0, 0, 0,                                      // color bits ignored
-		0,                                                         // no alpha buffer
-		0,                                                         // shift bit ignored
-		0,                                                         // no accumulation buffer
-		0, 0, 0, 0,                                              // accumulation bits ignored
-		16,                                                       // 16-bit z-buffer
-		0,                                                         // no stencil buffer
-		0,                                                         // no auxiliary buffer
-		PFD_MAIN_PLANE,                              // main layer
-		0,                                                         // reserved
-		0, 0, 0                                                  // layer masks ignored
+	   sizeof(PIXELFORMATDESCRIPTOR),
+	   1,
+	   PFD_DRAW_TO_WINDOW |            // support window
+	   PFD_SUPPORT_OPENGL |            // support OpenGL
+	   PFD_DOUBLEBUFFER,               // double buffered
+	   PFD_TYPE_RGBA,                  // RGBA type
+	   32,                             // 32-bit color depth
+	   0, 0, 0, 0, 0, 0,               // color bits ignored
+	   0,                              // no alpha buffer
+	   0,                              // shift bit ignored
+	   0,                              // no accumulation buffer
+	   0, 0, 0, 0,                     // accum bits ignored
+	   24,                        // 24-bit z-buffer
+	   0,                              // no stencil buffer
+	   0,                              // no auxiliary buffer
+	   PFD_MAIN_PLANE,                 // main layer
+	   0,                              // reserved
+	   0, 0, 0                         // layer masks ignored
 	};
 
 	int m_nPixelFormat = ::ChoosePixelFormat(m_pDC->GetSafeHdc(), &pfd);
@@ -63,9 +65,8 @@ MOpenGL::MOpenGL(CDialog* pMainWindow)
 	::glClearDepth(1.0f);
 	::glEnable(GL_DEPTH_TEST);
 
-	CWnd* pImage = GetDlgItem(IDC_VisualWindow);
-	CRect rc;
-	pImage->GetWindowRect(rc);
+	glDrawArrays(GL_TRIANGLES, 0, 3);
+	SwapBuffers(m_pDC->GetSafeHdc());
 }
 
 void MOpenGL::Initialize()

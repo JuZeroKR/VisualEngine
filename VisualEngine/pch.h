@@ -10,7 +10,10 @@
 // add headers that you want to pre-compile here
 #include "framework.h"
 
+#include "resource.h"
+
 #include <glew.h>
+#include <wglew.h>
 #include <glfw3.h>
 //#include <glad.h>
 
@@ -19,5 +22,6 @@
 
 #pragma comment(lib, "opengl32.lib")
 #pragma comment(lib, "glfw3.lib")
+#pragma comment (lib, "glew32.lib")
 
 #endif //PCH_H

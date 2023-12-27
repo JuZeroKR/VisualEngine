@@ -103,7 +103,7 @@ BOOL CVisualEngineDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
 	// TODO: Add extra initialization here
-	MOpenGL* pMOpenGL = new MOpenGL((CDialog*)this);
+	//MOpenGL* pMOpenGL = new MOpenGL((CDialog*)this);
 
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
@@ -149,6 +149,8 @@ void CVisualEngineDlg::OnPaint()
 	{
 		CDialogEx::OnPaint();
 	}
+
+	MOpenGL* pMOpenGL = new MOpenGL((CDialog*)this);
 }
 
 // The system calls this function to obtain the cursor to display while the user drags
@@ -171,6 +173,6 @@ void CVisualEngineDlg::OnDestroy()
 void CVisualEngineDlg::OnTimer(UINT_PTR nIDEvent)
 {
 	// TODO: Add your message handler code here and/or call default
-
+	// MOpenGL* pMOpenGL = new MOpenGL((CDialog*)this);
 	CDialogEx::OnTimer(nIDEvent);
 }
