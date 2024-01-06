@@ -4,16 +4,26 @@
 
 MOpenGL::MOpenGL(CDialog* pMainWindow)
 {
-	CDC* m_pDC = new CClientDC(pMainWindow->GetDlgItem(IDC_VisualWindow));
+	m_pMainWindow = pMainWindow;
+	m_pDC = new CClientDC(pMainWindow->GetDlgItem(IDC_VisualWindow));
 	if (m_pDC == NULL)
 	{
 		AfxMessageBox(CString("Error Obtaining DC"));
 		return;
 	}
 
+	hwndWindow = ::GetDlgItem(pMainWindow->m_hWnd, IDC_VisualWindow);
+	::GetClientRect(hwndWindow, &rc);
+	
+	
+
+
+
+	center = CPoint((rc.right - rc.left) / 2, (rc.bottom - rc.top) / 2);
+
 	glewInit();
 
-	PIXELFORMATDESCRIPTOR pfd =
+	pfd =
 	{
 	   sizeof(PIXELFORMATDESCRIPTOR),
 	   1,
@@ -35,7 +45,7 @@ MOpenGL::MOpenGL(CDialog* pMainWindow)
 	   0, 0, 0                         // layer masks ignored
 	};
 
-	int m_nPixelFormat = ::ChoosePixelFormat(m_pDC->GetSafeHdc(), &pfd);
+	m_nPixelFormat = ::ChoosePixelFormat(m_pDC->GetSafeHdc(), &pfd);
 
 	if (m_nPixelFormat == 0)
 	{
@@ -48,7 +58,7 @@ MOpenGL::MOpenGL(CDialog* pMainWindow)
 	}
 
 	// Rendering Context from DC
-	HGLRC m_hRC = ::wglCreateContext(m_pDC->GetSafeHdc());
+	m_hRC = ::wglCreateContext(m_pDC->GetSafeHdc());
 	if (m_hRC == 0)
 	{
 		AfxMessageBox(CString("Error Creating RC"));
@@ -61,59 +71,20 @@ MOpenGL::MOpenGL(CDialog* pMainWindow)
 		return;
 	}
 
-	::glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	::glClearDepth(1.0f);
-	::glEnable(GL_DEPTH_TEST);
+	glMatrixMode(GL_MODELVIEW);
 
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glClear(GL_COLOR_BUFFER_BIT);
+	glColor3f(0.5f, 0.5f, 0.5f);
+	::glEnable(GL_ALWAYS);
+
+	glFlush();
+
 	SwapBuffers(m_pDC->GetSafeHdc());
 }
 
 void MOpenGL::Initialize()
 {
-	
 
-
-
-
-	//CWnd* pImage = GetDlgItem(IDC_VisualWindow);
-	//CRect rc;
-	//pImage->GetWindowRect(rc);
-	//CDC*  m_pDC = pImage->GetDC();
-
-
-	//if (NULL == m_pDC)
-	//{
-	//	AfxMessageBox(CString("Unable to get a DC"));
-	//	return;
-	//}
-
-
-	//glewExperimental = GL_TRUE;
-	//if (GLEW_OK != glewInit())
-	//{
-	//	AfxMessageBox(CString("GLEW could not be initialized!"));
-	//	return;
-	//}
-
-	//GLint attribs[] =
-	//{
-	//	//OpenGL 3.3
-	//	WGL_CONTEXT_MAJOR_VERSION_ARB, 3,
-	//	WGL_CONTEXT_MINOR_VERSION_ARB, 3,
-	//	// Uncomment this for forward compatibility mode
-	//	//WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
-	//	// Uncomment this for Compatibility profile
-	//	//WGL_CONTEXT_PROFILE_MASK_ARB, WGL_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB,
-	//	// We are using Core profile here
-	//	WGL_CONTEXT_PROFILE_MASK_ARB, WGL_CONTEXT_CORE_PROFILE_BIT_ARB,
-	//	0
-	//};
-
-
-	//HGLRC CompHRC = wglCreateContextAttribsARB(m_pDC->GetSafeHdc(), 0, attribs);
-	//if (CompHRC && wglMakeCurrent(m_pDC->GetSafeHdc(), CompHRC))
-	//	m_hRC = CompHRC;
 }
 
 void MOpenGL::Start()
@@ -123,4 +94,125 @@ void MOpenGL::Start()
 void MOpenGL::Clear()
 {
 }
+
+void MOpenGL::CreatePoint(CPoint point)
+{
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	CRect rect;
+	CRect visualWindowRect;
+	m_pMainWindow->GetDlgItem(IDC_VisualWindow)->GetWindowRect(&rect);
+	m_pMainWindow->ScreenToClient(&rect);
+	m_pMainWindow->GetDlgItem(IDC_VisualWindow)->GetClientRect(&visualWindowRect);
+	// Control Pos
+	CPoint pt = rect.TopLeft();
+
+	int width = visualWindowRect.Width();
+	int height = visualWindowRect.Height();
+	CPoint center = visualWindowRect.CenterPoint();
+
+	if (point.x < abs(pt.x))
+		return;
+	if (point.y < abs(pt.y))
+		return;
+
+	// Cacl mousePt on the Control Picture
+	CPoint mousePt = CPoint(point.x - abs(pt.x), point.y - abs(pt.y));
+
+
+	float x = (mousePt.x - center.x) / ((float)width / 2);
+	float y = (center.y - mousePt.y) / ((float)height / 2);
+
+	OGV2DPoint* ogvPoint = new OGV2DPoint(x, y);
+	m_points.push_back(ogvPoint);
+
+	GLfloat vertices[] = {
+		x, y, 0.f
+	};
+	glClearColor(0.0, 0.0, 0.0, 1.0);
+	glClear(GL_COLOR_BUFFER_BIT);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glPointSize(1.0f);
+	glColor3f(1.0f, 0.0f, 0.0f);
+	glVertexPointer(2, GL_FLOAT, 0, vertices);
+	glDrawArrays(GL_POINTS, 0, 1);
+	glDisableClientState(GL_VERTEX_ARRAY);
+
+	glFlush();
+
+	SwapBuffers(m_pDC->GetSafeHdc());
+	
+	
+}
+
+void MOpenGL::CreateLine(OGV2DPoint i_point, OGV2DPoint i_point2)
+{
+	GLfloat vertices[1000];
+	glEnableClientState(GL_VERTEX_ARRAY);
+	// glPointSize(1.0f);
+	// glColor3f(1.0f, 0.0f, 0.0f);
+
+	int j = 0;
+	for (int i = 0; i < m_points.size(); i++)
+	{
+		vertices[j++] = m_points[i]->GetX();
+		vertices[j++] = m_points[i]->GetY();
+	}
+
+	glClearColor(0.0, 0.0, 0.0, 1.0);
+	glClear(GL_COLOR_BUFFER_BIT);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glVertexPointer(2, GL_FLOAT, 0, vertices);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	{
+		glColor4f(1.0, 1.0, 1.0, 1.0);
+		glDrawArrays(GL_LINES, 0, j);
+	}
+	glDisableClientState(GL_VERTEX_ARRAY);
+
+	glFlush();
+
+	SwapBuffers(m_pDC->GetSafeHdc());
+
+	
+}
+
+void MOpenGL::CreateLine()
+{
+	GLfloat vertices[1000];
+	// glPointSize(1.0f);
+	// glColor3f(1.0f, 0.0f, 0.0f);
+
+	int j = 0;
+	for (int i = 0; i < m_points.size(); i++)
+	{
+		vertices[j++] = m_points[i]->GetX();
+		vertices[j++] = m_points[i]->GetY();
+	}
+
+	glClearColor(0.0, 0.0, 0.0, 1.0);
+	glClear(GL_COLOR_BUFFER_BIT);
+	//glMatrixMode(GL_MODELVIEW);
+	// glLoadIdentity();
+	glVertexPointer(2, GL_FLOAT, 0, vertices);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	{
+		glColor4f(1.0, 1.0, 1.0, 1.0);
+		glDrawArrays(GL_LINE_STRIP, 0, j/2);
+	}
+	glDisableClientState(GL_VERTEX_ARRAY);
+
+	glFlush();
+
+	SwapBuffers(m_pDC->GetSafeHdc());
+
+
+}
+
+void MOpenGL::Draw()
+{
+
+}
+
 

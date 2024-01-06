@@ -22,6 +22,9 @@
     <Filter Include="OpenGL\Source">
       <UniqueIdentifier>{196b4129-6714-4ce6-a78c-1684c6228488}</UniqueIdentifier>
     </Filter>
+    <Filter Include="OpenGL\Source\Geometry">
+      <UniqueIdentifier>{833eb6e4-47da-46f0-8d04-ff95ce14ea12}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="VisualEngine.h">
@@ -45,6 +48,12 @@
     <ClInclude Include="MOpenGL.h">
       <Filter>OpenGL\Header</Filter>
     </ClInclude>
+    <ClInclude Include="OGV2DPoint.h">
+      <Filter>OpenGL\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="OGV2DLine.h">
+      <Filter>OpenGL\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="VisualEngine.cpp">
@@ -58,6 +67,12 @@
     </ClCompile>
     <ClCompile Include="MOpenGL.cpp">
       <Filter>OpenGL\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="OGV2DPoint.cpp">
+      <Filter>OpenGL\Source\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="OGV2DLine.cpp">
+      <Filter>OpenGL\Source\Geometry</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

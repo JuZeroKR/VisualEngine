@@ -7,6 +7,12 @@
 #ifndef PCH_H
 #define PCH_H
 
+#ifdef _DEBUG
+
+#pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
+
+#endif
+
 // add headers that you want to pre-compile here
 #include "framework.h"
 

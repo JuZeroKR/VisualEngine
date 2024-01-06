@@ -53,6 +53,7 @@ END_MESSAGE_MAP()
 CVisualEngineDlg::CVisualEngineDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_VISUALENGINE_DIALOG, pParent)
 {
+	pMOpenGL = NULL;
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
@@ -68,6 +69,7 @@ BEGIN_MESSAGE_MAP(CVisualEngineDlg, CDialogEx)
 	ON_WM_QUERYDRAGICON()
 	ON_WM_DESTROY()
 	ON_WM_TIMER()
+	ON_WM_LBUTTONDOWN()
 END_MESSAGE_MAP()
 
 
@@ -104,7 +106,7 @@ BOOL CVisualEngineDlg::OnInitDialog()
 
 	// TODO: Add extra initialization here
 	//MOpenGL* pMOpenGL = new MOpenGL((CDialog*)this);
-
+	pMOpenGL = new MOpenGL((CDialog*)this);
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -150,7 +152,7 @@ void CVisualEngineDlg::OnPaint()
 		CDialogEx::OnPaint();
 	}
 
-	MOpenGL* pMOpenGL = new MOpenGL((CDialog*)this);
+	
 }
 
 // The system calls this function to obtain the cursor to display while the user drags
@@ -175,4 +177,20 @@ void CVisualEngineDlg::OnTimer(UINT_PTR nIDEvent)
 	// TODO: Add your message handler code here and/or call default
 	// MOpenGL* pMOpenGL = new MOpenGL((CDialog*)this);
 	CDialogEx::OnTimer(nIDEvent);
+}
+
+#include <iostream>
+
+void CVisualEngineDlg::OnLButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO: Add your message handler code here and/or call default
+	
+	CDialogEx::OnLButtonDown(nFlags, point);
+	CRect rt1;
+	((CStatic*)GetDlgItem(IDC_VisualWindow))->GetWindowRect(&rt1);
+	ScreenToClient(&rt1);
+
+	pMOpenGL->CreatePoint(point);
+	if(pMOpenGL->SizePoints() > 1)
+		pMOpenGL->CreateLine();
 }

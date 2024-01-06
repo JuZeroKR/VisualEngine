@@ -38,4 +38,8 @@ public:
 	CStatic m_window;
 	afx_msg void OnDestroy();
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+
+public:
+	MOpenGL* pMOpenGL;
 };
