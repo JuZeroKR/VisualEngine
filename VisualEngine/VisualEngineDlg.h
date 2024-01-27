@@ -4,7 +4,7 @@
 
 // User Add
 #include "MOpenGL.h"
-
+#include "OGV2DPoint.h"
 #pragma once
 
 
@@ -42,4 +42,6 @@ public:
 
 public:
 	MOpenGL* pMOpenGL;
+	vector<OGV2DPoint> m_points;
+	
 };

@@ -37,10 +37,8 @@ public:
 	void CreatePoint(CPoint point);
 	void CreateLine(OGV2DPoint i_point, OGV2DPoint i_point2);
 	void CreateLine();
+	void CreateLine(const float x1, const float y1, const float x2, const float y2);
 
-	int	 SizePoints() {
-		return m_points.size();
-	}
 public:
 	void Draw();
 

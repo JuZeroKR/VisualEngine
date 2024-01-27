@@ -180,6 +180,8 @@ void CVisualEngineDlg::OnTimer(UINT_PTR nIDEvent)
 }
 
 #include <iostream>
+#include "PolynomialOperation.h"
+#include "OGVVisu.h"
 
 void CVisualEngineDlg::OnLButtonDown(UINT nFlags, CPoint point)
 {
@@ -190,7 +192,62 @@ void CVisualEngineDlg::OnLButtonDown(UINT nFlags, CPoint point)
 	((CStatic*)GetDlgItem(IDC_VisualWindow))->GetWindowRect(&rt1);
 	ScreenToClient(&rt1);
 
-	pMOpenGL->CreatePoint(point);
+	PolynomialOperation* polynomialOperation;
+	polynomialOperation = new PolynomialOperation();
+
+	// OGV2DPoint pt = polynomialOperation->GetPointOnLine(OGV2DPoint(0,0), OGV2DPoint(10,10), 0.5);
+
+
+	CRect rect;
+	CRect visualWindowRect;
+	GetDlgItem(IDC_VisualWindow)->GetWindowRect(&rect);
+	ScreenToClient(&rect);
+	GetDlgItem(IDC_VisualWindow)->GetClientRect(&visualWindowRect);
+	// Control Pos
+	CPoint pt = rect.TopLeft();
+
+	int width = visualWindowRect.Width();
+	int height = visualWindowRect.Height();
+	CPoint center = visualWindowRect.CenterPoint();
+
+	if (point.x < abs(pt.x))
+		return;
+	if (point.y < abs(pt.y))
+		return;
+
+	// Cacl mousePt on the Control Picture
+	CPoint mousePt = CPoint(point.x - abs(pt.x), point.y - abs(pt.y));
+
+
+	float x = (mousePt.x - center.x) / ((float)width / 2);
+	float y = (center.y - mousePt.y) / ((float)height / 2);
+
+	
+	if (m_points.size() < 3)
+		m_points.push_back(OGV2DPoint(x, y));
+	else {
+		vector<OGV2DLine> lines;
+		polynomialOperation->GetPointsBezierCurve(m_points[0], m_points[1], m_points[2], lines);
+		for (int i = 0; i < lines.size(); i++)
+		{
+			pMOpenGL->CreateLine(lines[i].m_startX, lines[i].m_startY, lines[i].m_endX, lines[i].m_endY);
+		}
+	}
+
+	
+
+	
+
+	//pMOpenGL->CreateLine(lines[0].m_startX, lines[0].m_startY, lines[0].m_endX, lines[0].m_endY);
+
+
+	// OGVVisu* pVisu = new OGVVisu();
+	// pVisu->Initialize(this);
+
+
+
+	/*pMOpenGL->CreatePoint(point);
 	if(pMOpenGL->SizePoints() > 1)
-		pMOpenGL->CreateLine();
+		pMOpenGL->CreateLine();*/
+
 }

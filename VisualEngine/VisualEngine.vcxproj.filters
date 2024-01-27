@@ -25,6 +25,24 @@
     <Filter Include="OpenGL\Source\Geometry">
       <UniqueIdentifier>{833eb6e4-47da-46f0-8d04-ff95ce14ea12}</UniqueIdentifier>
     </Filter>
+    <Filter Include="OpenGL\Source\Camera">
+      <UniqueIdentifier>{122d5757-0bf3-4bad-af75-dc035a58b12d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OpenGL\Source\Event">
+      <UniqueIdentifier>{283f6c98-af8c-4335-a140-619de564024b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OpenGL\Source\2DOperators">
+      <UniqueIdentifier>{0de08809-a2be-4b84-8d90-e02565b1db55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OpenGL\Header\2DOperators">
+      <UniqueIdentifier>{17f58a6c-98bf-42d5-b0ab-13f3a6b09050}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OpenGL\Header\Geometry">
+      <UniqueIdentifier>{15183ded-bca3-4d7d-9811-ae64dcf53a21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OpenGL\Source\Visualization">
+      <UniqueIdentifier>{f3f08131-d91b-4e2e-b4de-21f800e58d88}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="VisualEngine.h">
@@ -48,11 +66,23 @@
     <ClInclude Include="MOpenGL.h">
       <Filter>OpenGL\Header</Filter>
     </ClInclude>
-    <ClInclude Include="OGV2DPoint.h">
-      <Filter>OpenGL\Header</Filter>
+    <ClInclude Include="PolynomialOperation.h">
+      <Filter>OpenGL\Header\2DOperators</Filter>
     </ClInclude>
     <ClInclude Include="OGV2DLine.h">
-      <Filter>OpenGL\Header</Filter>
+      <Filter>OpenGL\Header\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="OGV2DPoint.h">
+      <Filter>OpenGL\Header\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="OGVBeizerCurve.h">
+      <Filter>OpenGL\Header\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="OGVGeometry.h">
+      <Filter>OpenGL\Header\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="OGVVisu.h">
+      <Filter>OpenGL\Header\Geometry</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +103,18 @@
     </ClCompile>
     <ClCompile Include="OGV2DLine.cpp">
       <Filter>OpenGL\Source\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="OGVBeizerCurve.cpp">
+      <Filter>OpenGL\Source\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="PolynomialOperation.cpp">
+      <Filter>OpenGL\Source\2DOperators</Filter>
+    </ClCompile>
+    <ClCompile Include="OGVGeometry.cpp">
+      <Filter>OpenGL\Source\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="OGVVisu.cpp">
+      <Filter>OpenGL\Source\Visualization</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

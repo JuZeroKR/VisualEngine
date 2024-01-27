@@ -210,6 +210,26 @@ void MOpenGL::CreateLine()
 
 }
 
+void MOpenGL::CreateLine(const float x1, const float y1, const float x2, const float y2)
+{
+	GLfloat vertices[1000];
+	int j = 0;
+	vertices[j++] = x1;
+	vertices[j++] = y1;
+	vertices[j++] = x2;
+	vertices[j++] = y2;
+	glVertexPointer(2, GL_FLOAT, 0, vertices);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	{
+		glColor4f(1.0, 1.0, 1.0, 1.0);
+		glDrawArrays(GL_LINE_STRIP, 0, j / 2);
+	}
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glFlush();
+
+	SwapBuffers(m_pDC->GetSafeHdc());
+}
+
 void MOpenGL::Draw()
 {
 

@@ -1,9 +1,12 @@
-﻿  MOpenGL.cpp
-D:\Git\VisualEngine\VisualEngine\VisualEngine\MOpenGL.h(42,23): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+﻿  VisualEngineDlg.cpp
 MOpenGL.obj : warning LNK4258: directive '/entry:WinMainCRTStartup' not compatible with switch '/ENTRY:wWinMainCRTStartup'; ignored
 OGV2DLine.obj : warning LNK4258: directive '/entry:WinMainCRTStartup' not compatible with switch '/ENTRY:wWinMainCRTStartup'; ignored
 OGV2DPoint.obj : warning LNK4258: directive '/entry:WinMainCRTStartup' not compatible with switch '/ENTRY:wWinMainCRTStartup'; ignored
+OGVBeizerCurve.obj : warning LNK4258: directive '/entry:WinMainCRTStartup' not compatible with switch '/ENTRY:wWinMainCRTStartup'; ignored
+OGVGeometry.obj : warning LNK4258: directive '/entry:WinMainCRTStartup' not compatible with switch '/ENTRY:wWinMainCRTStartup'; ignored
+OGVVisu.obj : warning LNK4258: directive '/entry:WinMainCRTStartup' not compatible with switch '/ENTRY:wWinMainCRTStartup'; ignored
 pch.obj : warning LNK4258: directive '/entry:WinMainCRTStartup' not compatible with switch '/ENTRY:wWinMainCRTStartup'; ignored
+PolynomialOperation.obj : warning LNK4258: directive '/entry:WinMainCRTStartup' not compatible with switch '/ENTRY:wWinMainCRTStartup'; ignored
 VisualEngine.obj : warning LNK4258: directive '/entry:WinMainCRTStartup' not compatible with switch '/ENTRY:wWinMainCRTStartup'; ignored
 VisualEngineDlg.obj : warning LNK4258: directive '/entry:WinMainCRTStartup' not compatible with switch '/ENTRY:wWinMainCRTStartup'; ignored
   VisualEngine.vcxproj -> D:\Git\VisualEngine\VisualEngine\x64\Debug\VisualEngine.exe
