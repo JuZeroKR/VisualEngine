@@ -107,7 +107,7 @@ BOOL CVisualEngineDlg::OnInitDialog()
 	// TODO: Add extra initialization here
 	//MOpenGL* pMOpenGL = new MOpenGL((CDialog*)this);
 	pMOpenGL = new MOpenGL((CDialog*)this);
-
+	pVisu = new OGVVisu(this);
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
@@ -197,43 +197,35 @@ void CVisualEngineDlg::OnLButtonDown(UINT nFlags, CPoint point)
 
 	// OGV2DPoint pt = polynomialOperation->GetPointOnLine(OGV2DPoint(0,0), OGV2DPoint(10,10), 0.5);
 
-
-	CRect rect;
-	CRect visualWindowRect;
-	GetDlgItem(IDC_VisualWindow)->GetWindowRect(&rect);
-	ScreenToClient(&rect);
-	GetDlgItem(IDC_VisualWindow)->GetClientRect(&visualWindowRect);
-	// Control Pos
-	CPoint pt = rect.TopLeft();
-
-	int width = visualWindowRect.Width();
-	int height = visualWindowRect.Height();
-	CPoint center = visualWindowRect.CenterPoint();
-
-	if (point.x < abs(pt.x))
-		return;
-	if (point.y < abs(pt.y))
-		return;
-
-	// Cacl mousePt on the Control Picture
-	CPoint mousePt = CPoint(point.x - abs(pt.x), point.y - abs(pt.y));
-
-
-	float x = (mousePt.x - center.x) / ((float)width / 2);
-	float y = (center.y - mousePt.y) / ((float)height / 2);
+	// Convert  
 
 	
-	if (m_points.size() < 3)
-		m_points.push_back(OGV2DPoint(x, y));
-	else {
-		vector<OGV2DLine> lines;
-		polynomialOperation->GetPointsBezierCurve(m_points[0], m_points[1], m_points[2], lines);
-		for (int i = 0; i < lines.size(); i++)
-		{
-			pMOpenGL->CreateLine(lines[i].m_startX, lines[i].m_startY, lines[i].m_endX, lines[i].m_endY);
-		}
-	}
+	float x, y;
+	pVisu->ConvertCoordinate(point.x, point.y, x, y);
 
+	pVisu->DrawPoint(x, y);
+	
+	if (pVisu->m_points.size() == 3)
+	{
+		pVisu->DrawLine(pVisu->m_points[0], pVisu->m_points[1]);
+		pVisu->DrawLine(pVisu->m_points[1], pVisu->m_points[2]);
+		vector<OGV2DLine*> lines;
+		polynomialOperation->GetPointsBezierCurve(*pVisu->m_points[0], *pVisu->m_points[1], *pVisu->m_points[2]
+			, lines);
+
+		for (int i = 0; i < polynomialOperation->pointsPt1Pt2.size(); i++)
+		{
+			pVisu->DrawPoint(polynomialOperation->pointsPt1Pt2[i].GetX(), polynomialOperation->pointsPt1Pt2[i].GetY());
+		}
+
+		for (int i = 0; i < polynomialOperation->pointsPt2Pt3.size(); i++)
+		{
+			pVisu->DrawPoint(polynomialOperation->pointsPt2Pt3[i].GetX(), polynomialOperation->pointsPt2Pt3[i].GetY());
+		}
+
+		for (int i = 0; i < lines.size(); i++)
+			pVisu->DrawLine(lines[i]);
+	}
 	
 
 	

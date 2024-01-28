@@ -5,6 +5,8 @@
 // User Add
 #include "MOpenGL.h"
 #include "OGV2DPoint.h"
+#include "OGV2DLine.h"
+#include "OGVVisu.h"
 #pragma once
 
 
@@ -43,5 +45,5 @@ public:
 public:
 	MOpenGL* pMOpenGL;
 	vector<OGV2DPoint> m_points;
-	
+	OGVVisu* pVisu;
 };

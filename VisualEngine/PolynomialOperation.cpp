@@ -6,7 +6,7 @@ OGV2DPoint PolynomialOperation::GetPointOnLine(const OGV2DPoint& i_StartPt, cons
 	float x_StartPT = i_StartPt.x;
 	float x_EndPT = i_EndPt.x;
 
-	float x_Pt = (x_EndPT - x_StartPT) * ratio;
+	float x_Pt = (x_StartPT + x_EndPT) * ratio;
 
 	float sleep = (i_EndPt.y - i_StartPt.y) / (i_EndPt.x - i_StartPt.x);
 	float y;
@@ -21,7 +21,7 @@ OGV2DPoint PolynomialOperation::GetPointOnLine(const OGV2DPoint& i_StartPt, cons
 
 OGV2DPoint PolynomialOperation::GetPointOnLine(const float x1, const float y1, const float x2, const float y2, const double ratio)
 {
-	float x_Pt = (x2 - x1) * ratio;
+	float x_Pt = (x1 + x2) * ratio;
 
 	float sleep = (y2 - y1) / (x2 - x1);
 	float y;
@@ -34,12 +34,11 @@ OGV2DPoint PolynomialOperation::GetPointOnLine(const float x1, const float y1, c
 }
 
 
-void PolynomialOperation::GetPointsBezierCurve(OGV2DPoint pt1, OGV2DPoint pt2, OGV2DPoint pt3, vector<OGV2DLine>& i_lines, int interval)
+void PolynomialOperation::GetPointsBezierCurve(OGV2DPoint pt1, OGV2DPoint pt2, OGV2DPoint pt3, vector<OGV2DLine*>& i_lines, int interval)
 {
 	float _interval;
 	
-	vector<OGV2DPoint> pointsPt1Pt2;
-	vector<OGV2DPoint> pointsPt2Pt3;
+	
 
 	float step = 1.0 / interval;
 	float curStep = 0.0;
@@ -55,7 +54,11 @@ void PolynomialOperation::GetPointsBezierCurve(OGV2DPoint pt1, OGV2DPoint pt2, O
 		pointsPt2Pt3.push_back(point);
 	}
 
-	for(int i = 0; i< pointsPt1Pt2.size(); i++)
-		i_lines.push_back(OGV2DLine(pointsPt1Pt2[i].GetX(), pointsPt1Pt2[i].GetY(), pointsPt2Pt3[i].GetX(), pointsPt2Pt3[i].GetY()));
+	for (int i = 0; i < pointsPt1Pt2.size(); i++)
+	{
+		OGV2DLine* line = new OGV2DLine(pointsPt1Pt2[i].GetX(), pointsPt1Pt2[i].GetY(), pointsPt2Pt3[pointsPt1Pt2.size()-i-1].GetX(), pointsPt2Pt3[pointsPt1Pt2.size()-i-1].GetY());
+		i_lines.push_back(line);
+	}
+		
 
 }

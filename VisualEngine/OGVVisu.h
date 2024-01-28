@@ -21,18 +21,23 @@ private:
 
 	CDialog* m_pMainWindow;
 
-	vector<OGV2DPoint*> m_points;
+	
 
 public:
-	OGVVisu();
-	void Initialize(CDialog* pMainWindow);
-	void Start();
+	OGVVisu(CDialog* pMainWindow);
+	~OGVVisu();
+	void Initialize();
 	void Clear();
 
-	void DrawPoint(float i_x, float i_y);
-	void DrawPoint(CPoint point);
-	void DrawLine(OGV2DPoint i_point, OGV2DPoint i_point2);
-	void DrawLine(OGV2DLine i_Line);
+	void ConvertCoordinate(float i_x, float i_y, float &io_x, float &io_y);
 
+	void DrawPoint(float i_x, float i_y);
+	void DrawPoint(OGV2DPoint i_point);
+	void DrawLine(OGV2DPoint* i_point, OGV2DPoint* i_point2);
+	void DrawLine(OGV2DLine* i_Line);
+
+public:
+	vector<OGV2DPoint*> m_points;
+	vector<OGV2DLine*> m_lines;
 };
 

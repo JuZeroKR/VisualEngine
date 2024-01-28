@@ -11,6 +11,10 @@ using namespace std;
 class PolynomialOperation
 {
 public:
+	vector<OGV2DPoint> pointsPt1Pt2;
+	vector<OGV2DPoint> pointsPt2Pt3;
+
+public:
 	// return : OGV2DPoint
 	OGV2DPoint GetPointOnLine(const OGV2DPoint& i_StartPt, const OGV2DPoint& i_EndPt, const double ratio);
 
@@ -18,6 +22,6 @@ public:
 
 	OGV2DPoint GetPointOnLine(const OGV2DLine i_line, const double ratio);
 
-	void GetPointsBezierCurve(OGV2DPoint pt1, OGV2DPoint pt2, OGV2DPoint pt3, vector<OGV2DLine>& i_lines, int interval = 10);
+	void GetPointsBezierCurve(OGV2DPoint pt1, OGV2DPoint pt2, OGV2DPoint pt3, vector<OGV2DLine*>& i_lines, int interval = 10);
 };
 
