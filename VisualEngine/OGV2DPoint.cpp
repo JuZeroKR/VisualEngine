@@ -1,6 +1,10 @@
 #include "pch.h"
 #include "OGV2DPoint.h"
 
+OGV2DPoint::OGV2DPoint()
+{
+}
+
 OGV2DPoint::OGV2DPoint(float i_x, float i_y)
 {
     x = i_x;

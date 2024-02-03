@@ -23,6 +23,9 @@
 #include <glfw3.h>
 //#include <glad.h>
 
+#include <iostream>
+using namespace std;
+
 
 //#include <Windows.h>
 

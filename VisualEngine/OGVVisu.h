@@ -28,6 +28,7 @@ public:
 	~OGVVisu();
 	void Initialize();
 	void Clear();
+	void Refresh();
 
 	void ConvertCoordinate(float i_x, float i_y, float &io_x, float &io_y);
 

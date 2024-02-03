@@ -75,13 +75,19 @@
     <ClInclude Include="OGV2DPoint.h">
       <Filter>OpenGL\Header\Geometry</Filter>
     </ClInclude>
-    <ClInclude Include="OGVBeizerCurve.h">
+    <ClInclude Include="OGV2DBeizerCurve.h">
       <Filter>OpenGL\Header\Geometry</Filter>
     </ClInclude>
     <ClInclude Include="OGVGeometry.h">
       <Filter>OpenGL\Header\Geometry</Filter>
     </ClInclude>
     <ClInclude Include="OGVVisu.h">
+      <Filter>OpenGL\Header\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="OGVViewer.h">
+      <Filter>OpenGL\Header\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="BagRep2D.h">
       <Filter>OpenGL\Header\Geometry</Filter>
     </ClInclude>
   </ItemGroup>
@@ -104,7 +110,7 @@
     <ClCompile Include="OGV2DLine.cpp">
       <Filter>OpenGL\Source\Geometry</Filter>
     </ClCompile>
-    <ClCompile Include="OGVBeizerCurve.cpp">
+    <ClCompile Include="OGV2DBeizerCurve.cpp">
       <Filter>OpenGL\Source\Geometry</Filter>
     </ClCompile>
     <ClCompile Include="PolynomialOperation.cpp">
@@ -114,6 +120,12 @@
       <Filter>OpenGL\Source\Geometry</Filter>
     </ClCompile>
     <ClCompile Include="OGVVisu.cpp">
+      <Filter>OpenGL\Source\Visualization</Filter>
+    </ClCompile>
+    <ClCompile Include="OGVViewer.cpp">
+      <Filter>OpenGL\Source\Visualization</Filter>
+    </ClCompile>
+    <ClCompile Include="BagRep2D.cpp">
       <Filter>OpenGL\Source\Visualization</Filter>
     </ClCompile>
   </ItemGroup>

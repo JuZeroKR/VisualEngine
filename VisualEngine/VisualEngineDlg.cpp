@@ -53,7 +53,6 @@ END_MESSAGE_MAP()
 CVisualEngineDlg::CVisualEngineDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_VISUALENGINE_DIALOG, pParent)
 {
-	pMOpenGL = NULL;
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
@@ -70,6 +69,11 @@ BEGIN_MESSAGE_MAP(CVisualEngineDlg, CDialogEx)
 	ON_WM_DESTROY()
 	ON_WM_TIMER()
 	ON_WM_LBUTTONDOWN()
+	ON_BN_CLICKED(IDC_BUTTONClear, &CVisualEngineDlg::OnBnClickedButtonclear)
+	ON_BN_CLICKED(IDC_BUTTONPoint, &CVisualEngineDlg::OnBnClickedButtonpoint)
+	ON_BN_CLICKED(IDC_BUTTONLine, &CVisualEngineDlg::OnBnClickedButtonline)
+	ON_WM_MOUSEMOVE()
+	ON_BN_CLICKED(IDC_BUTTONBeizerCurve, &CVisualEngineDlg::OnBnClickedButtonbeizercurve)
 END_MESSAGE_MAP()
 
 
@@ -106,8 +110,12 @@ BOOL CVisualEngineDlg::OnInitDialog()
 
 	// TODO: Add extra initialization here
 	//MOpenGL* pMOpenGL = new MOpenGL((CDialog*)this);
-	pMOpenGL = new MOpenGL((CDialog*)this);
+	// pMOpenGL = new MOpenGL((CDialog*)this);
+	m_pViewer = new OGVViewer(this);
+	m_pMainBagRep2D = new BagRep2D();
+	m_pViewer->SetMainBagRep2D(m_pMainBagRep2D);
 	pVisu = new OGVVisu(this);
+	cout << "CVisualEngineDlg::OnInitDialog() " << endl;
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
@@ -143,7 +151,6 @@ void CVisualEngineDlg::OnPaint()
 		GetClientRect(&rect);
 		int x = (rect.Width() - cxIcon + 1) / 2;
 		int y = (rect.Height() - cyIcon + 1) / 2;
-
 		// Draw the icon
 		dc.DrawIcon(x, y, m_hIcon);
 	}
@@ -192,54 +199,101 @@ void CVisualEngineDlg::OnLButtonDown(UINT nFlags, CPoint point)
 	((CStatic*)GetDlgItem(IDC_VisualWindow))->GetWindowRect(&rt1);
 	ScreenToClient(&rt1);
 
-	PolynomialOperation* polynomialOperation;
-	polynomialOperation = new PolynomialOperation();
-
 	// OGV2DPoint pt = polynomialOperation->GetPointOnLine(OGV2DPoint(0,0), OGV2DPoint(10,10), 0.5);
 
 	// Convert  
-
-	
 	float x, y;
 	pVisu->ConvertCoordinate(point.x, point.y, x, y);
 
-	pVisu->DrawPoint(x, y);
-	
-	if (pVisu->m_points.size() == 3)
+	if (m_CurStatus == Status::Draw_Point)
 	{
-		pVisu->DrawLine(pVisu->m_points[0], pVisu->m_points[1]);
-		pVisu->DrawLine(pVisu->m_points[1], pVisu->m_points[2]);
-		vector<OGV2DLine*> lines;
-		polynomialOperation->GetPointsBezierCurve(*pVisu->m_points[0], *pVisu->m_points[1], *pVisu->m_points[2]
-			, lines);
-
-		for (int i = 0; i < polynomialOperation->pointsPt1Pt2.size(); i++)
-		{
-			pVisu->DrawPoint(polynomialOperation->pointsPt1Pt2[i].GetX(), polynomialOperation->pointsPt1Pt2[i].GetY());
-		}
-
-		for (int i = 0; i < polynomialOperation->pointsPt2Pt3.size(); i++)
-		{
-			pVisu->DrawPoint(polynomialOperation->pointsPt2Pt3[i].GetX(), polynomialOperation->pointsPt2Pt3[i].GetY());
-		}
-
-		for (int i = 0; i < lines.size(); i++)
-			pVisu->DrawLine(lines[i]);
+		OGV2DPoint* pOGV2Dpoint = new OGV2DPoint(x, y);
+		m_pMainBagRep2D->AddPoint(pOGV2Dpoint);
+		m_pViewer->Draw();
 	}
-	
+	else if (m_CurStatus == Status::Draw_Line1)
+	{
+		tempPoint = OGV2DPoint(x, y);
+		//m_pMainBagRep2D->AddPoint(pOGV2Dpoint);
+		//m_pViewer->Draw();
 
-	
+		m_CurStatus = Status::Draw_Line2;
+	}
+	else if (m_CurStatus == Status::Draw_Line2)
+	{
+		OGV2DPoint* pOGV2Dpoint1 = new OGV2DPoint(x, y);
+		OGV2DPoint* pOGV2Dpoint2 = new OGV2DPoint(tempPoint.x, tempPoint.y);
+		m_pMainBagRep2D->AddPoint(pOGV2Dpoint1);
+		m_pMainBagRep2D->AddPoint(pOGV2Dpoint2);
+		OGV2DLine* pOGV2DLine = new OGV2DLine(pOGV2Dpoint1->GetX(), pOGV2Dpoint1->GetY(),
+			pOGV2Dpoint2->GetX(), pOGV2Dpoint2->GetY());
+		m_pMainBagRep2D->AddLine(pOGV2DLine);
+		m_pViewer->Draw();
+		m_CurStatus = Status::Draw_Noting;
+	}
+	else if (m_CurStatus == Status::Draw_BeizerCurve1)
+	{
+		tempPoint = OGV2DPoint(x, y);
+		m_CurStatus = Status::Draw_BeizerCurve2;
+	}
+	else if (m_CurStatus == Status::Draw_BeizerCurve2)
+	{
+		tempPoint2 = OGV2DPoint(x, y);
+		m_CurStatus = Status::Draw_BeizerCurve3;
+	}
+	else if (m_CurStatus == Status::Draw_BeizerCurve3)
+	{
+		OGV2DBeizerCurve* pBeizerCurve = new OGV2DBeizerCurve(tempPoint.x, tempPoint.y, tempPoint2.x, tempPoint2.y, x, y);
+		m_pMainBagRep2D->AddBeizerCurve(pBeizerCurve);
+		m_pViewer->Draw();
+		m_CurStatus = Status::Draw_Noting;
+	}
 
-	//pMOpenGL->CreateLine(lines[0].m_startX, lines[0].m_startY, lines[0].m_endX, lines[0].m_endY);
+	return;
+}
 
 
-	// OGVVisu* pVisu = new OGVVisu();
-	// pVisu->Initialize(this);
+void CVisualEngineDlg::OnBnClickedButtonclear()
+{
+	// TODO: Add your control notification handler code here
+	m_pViewer->Clear();
+	m_CurStatus = Status::Draw_Noting;
+	return;
+}
 
 
+void CVisualEngineDlg::OnBnClickedButtonpoint()
+{
+	// TODO: Add your control notification handler code here
+	m_CurStatus = Status::Draw_Point;
 
-	/*pMOpenGL->CreatePoint(point);
-	if(pMOpenGL->SizePoints() > 1)
-		pMOpenGL->CreateLine();*/
+}
 
+
+void CVisualEngineDlg::OnBnClickedButtonline()
+{
+	// TODO: Add your control notification handler code here
+	m_CurStatus = Status::Draw_Line1;
+}
+
+
+void CVisualEngineDlg::OnMouseMove(UINT nFlags, CPoint point)
+{
+	// TODO: Add your message handler code here and/or call default
+
+	CDialogEx::OnMouseMove(nFlags, point);
+	CRect rt1;
+	((CStatic*)GetDlgItem(IDC_VisualWindow))->GetWindowRect(&rt1);
+	ScreenToClient(&rt1);
+
+	cout << "X : " << point.x << " / Y : " << point.y << endl;
+
+}
+
+
+void CVisualEngineDlg::OnBnClickedButtonbeizercurve()
+{
+	// TODO: Add your control notification handler code here
+
+	m_CurStatus = Status::Draw_BeizerCurve1;
 }

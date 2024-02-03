@@ -189,12 +189,14 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BagRep2D.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="MOpenGL.h" />
     <ClInclude Include="OGV2DLine.h" />
     <ClInclude Include="OGV2DPoint.h" />
-    <ClInclude Include="OGVBeizerCurve.h" />
+    <ClInclude Include="OGV2DBeizerCurve.h" />
     <ClInclude Include="OGVGeometry.h" />
+    <ClInclude Include="OGVViewer.h" />
     <ClInclude Include="OGVVisu.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PolynomialOperation.h" />
@@ -204,11 +206,13 @@
     <ClInclude Include="VisualEngineDlg.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BagRep2D.cpp" />
     <ClCompile Include="MOpenGL.cpp" />
     <ClCompile Include="OGV2DLine.cpp" />
     <ClCompile Include="OGV2DPoint.cpp" />
-    <ClCompile Include="OGVBeizerCurve.cpp" />
+    <ClCompile Include="OGV2DBeizerCurve.cpp" />
     <ClCompile Include="OGVGeometry.cpp" />
+    <ClCompile Include="OGVViewer.cpp" />
     <ClCompile Include="OGVVisu.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

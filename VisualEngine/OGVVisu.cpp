@@ -74,7 +74,9 @@ OGVVisu::OGVVisu(CDialog* pMainWindow)
 
 	glFlush();
 
-	SwapBuffers(m_pDC->GetSafeHdc());
+	Refresh();
+
+	//SwapBuffers(m_pDC->GetSafeHdc());
 }
 
 OGVVisu::~OGVVisu()
@@ -92,6 +94,11 @@ void OGVVisu::Clear()
 {
 	glClearColor(0.0, 0.0, 0.0, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void OGVVisu::Refresh()
+{
+	// SwapBuffers(m_pDC->GetSafeHdc());
 }
 
 void OGVVisu::ConvertCoordinate(float i_x, float i_y, float& io_x, float& io_y)
@@ -141,8 +148,8 @@ void OGVVisu::DrawPoint(float i_x, float i_y)
 
 	glFlush();
 
-	SwapBuffers(m_pDC->GetSafeHdc());
-
+	//SwapBuffers(m_pDC->GetSafeHdc());
+	Refresh();
 
 }
 

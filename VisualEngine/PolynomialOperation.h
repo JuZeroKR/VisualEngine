@@ -23,5 +23,8 @@ public:
 	OGV2DPoint GetPointOnLine(const OGV2DLine i_line, const double ratio);
 
 	void GetPointsBezierCurve(OGV2DPoint pt1, OGV2DPoint pt2, OGV2DPoint pt3, vector<OGV2DLine*>& i_lines, int interval = 10);
+	void GetPointsBezierCurve(OGV2DPoint pt1, OGV2DPoint pt2, OGV2DPoint pt3, vector<OGV2DPoint>& i_point, int interval = 10);
+	void GetPointsBezierCurve(OGV2DPoint pt1, OGV2DPoint pt2, OGV2DPoint pt3, vector<OGV2DPoint>& i_point, vector<OGV2DLine>& i_lines,int interval = 10);
+
 };
 

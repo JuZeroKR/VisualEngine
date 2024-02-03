@@ -6,7 +6,11 @@
 #include "MOpenGL.h"
 #include "OGV2DPoint.h"
 #include "OGV2DLine.h"
+#include "OGV2DBeizerCurve.h"
 #include "OGVVisu.h"
+
+#include "BagRep2D.h"
+#include "OGVViewer.h"
 #pragma once
 
 
@@ -46,4 +50,29 @@ public:
 	MOpenGL* pMOpenGL;
 	vector<OGV2DPoint> m_points;
 	OGVVisu* pVisu;
+	OGVViewer* m_pViewer;
+	BagRep2D* m_pMainBagRep2D;
+
+	// Line
+	OGV2DPoint tempPoint;
+	OGV2DPoint tempPoint2;
+
+
+	enum Status {
+		Draw_Noting,
+		Draw_Point,
+		Draw_Line1,
+		Draw_Line2,
+		Draw_BeizerCurve1,
+		Draw_BeizerCurve2,
+		Draw_BeizerCurve3
+	};
+
+	Status m_CurStatus;
+
+	afx_msg void OnBnClickedButtonclear();
+	afx_msg void OnBnClickedButtonpoint();
+	afx_msg void OnBnClickedButtonline();
+	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
+	afx_msg void OnBnClickedButtonbeizercurve();
 };
