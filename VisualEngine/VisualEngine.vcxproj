@@ -196,6 +196,8 @@
     <ClInclude Include="OGV2DPoint.h" />
     <ClInclude Include="OGV2DBeizerCurve.h" />
     <ClInclude Include="OGVGeometry.h" />
+    <ClInclude Include="OGVMathematics.h" />
+    <ClInclude Include="OGVMathVector2D.h" />
     <ClInclude Include="OGVViewer.h" />
     <ClInclude Include="OGVVisu.h" />
     <ClInclude Include="pch.h" />
@@ -212,6 +214,8 @@
     <ClCompile Include="OGV2DPoint.cpp" />
     <ClCompile Include="OGV2DBeizerCurve.cpp" />
     <ClCompile Include="OGVGeometry.cpp" />
+    <ClCompile Include="OGVMathematics.cpp" />
+    <ClCompile Include="OGVMathVector2D.cpp" />
     <ClCompile Include="OGVViewer.cpp" />
     <ClCompile Include="OGVVisu.cpp" />
     <ClCompile Include="pch.cpp">

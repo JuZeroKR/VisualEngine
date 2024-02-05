@@ -111,6 +111,12 @@ BOOL CVisualEngineDlg::OnInitDialog()
 	// TODO: Add extra initialization here
 	//MOpenGL* pMOpenGL = new MOpenGL((CDialog*)this);
 	// pMOpenGL = new MOpenGL((CDialog*)this);
+	m_BezierCount = 3;
+
+	CString beizerCount;
+	beizerCount.Format(_T("%d"), m_BezierCount);
+	GetDlgItem(IDC_EDITBeizerCount)->SetWindowTextW(beizerCount);
+
 	m_pViewer = new OGVViewer(this);
 	m_pMainBagRep2D = new BagRep2D();
 	m_pViewer->SetMainBagRep2D(m_pMainBagRep2D);
@@ -231,23 +237,28 @@ void CVisualEngineDlg::OnLButtonDown(UINT nFlags, CPoint point)
 		m_pViewer->Draw();
 		m_CurStatus = Status::Draw_Noting;
 	}
-	else if (m_CurStatus == Status::Draw_BeizerCurve1)
+	else if (m_CurStatus == Status::Draw_BeizerCurve)
 	{
 		tempPoint = OGV2DPoint(x, y);
-		m_CurStatus = Status::Draw_BeizerCurve2;
+		m_TempPoints.push_back(tempPoint);
+		if (m_TempPoints.size() == m_BezierCount)
+		{
+
+
+			m_CurStatus = Status::Draw_Noting;
+		}
+		else
+		{
+			
+		}
 	}
-	else if (m_CurStatus == Status::Draw_BeizerCurve2)
-	{
-		tempPoint2 = OGV2DPoint(x, y);
-		m_CurStatus = Status::Draw_BeizerCurve3;
-	}
-	else if (m_CurStatus == Status::Draw_BeizerCurve3)
+	/*else if (m_CurStatus == Status::Draw_BeizerCurve3)
 	{
 		OGV2DBeizerCurve* pBeizerCurve = new OGV2DBeizerCurve(tempPoint.x, tempPoint.y, tempPoint2.x, tempPoint2.y, x, y);
 		m_pMainBagRep2D->AddBeizerCurve(pBeizerCurve);
 		m_pViewer->Draw();
 		m_CurStatus = Status::Draw_Noting;
-	}
+	}*/
 
 	return;
 }
@@ -295,5 +306,9 @@ void CVisualEngineDlg::OnBnClickedButtonbeizercurve()
 {
 	// TODO: Add your control notification handler code here
 
-	m_CurStatus = Status::Draw_BeizerCurve1;
+	m_CurStatus = Status::Draw_BeizerCurve;
+	CString beizerCount;
+	GetDlgItem(IDC_EDITBeizerCount)->GetWindowTextW(beizerCount);
+	m_BezierCount = _tstoi(beizerCount);
+
 }

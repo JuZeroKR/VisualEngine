@@ -43,6 +43,12 @@
     <Filter Include="OpenGL\Source\Visualization">
       <UniqueIdentifier>{f3f08131-d91b-4e2e-b4de-21f800e58d88}</UniqueIdentifier>
     </Filter>
+    <Filter Include="OpenGL\Source\Mathematics">
+      <UniqueIdentifier>{4dbe4bf2-a0f4-4092-9ae1-d7eb350b9702}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OpenGL\Header\Mathematics">
+      <UniqueIdentifier>{b700f07c-69e7-45dc-b54e-6062f519d6bc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="VisualEngine.h">
@@ -90,6 +96,12 @@
     <ClInclude Include="BagRep2D.h">
       <Filter>OpenGL\Header\Geometry</Filter>
     </ClInclude>
+    <ClInclude Include="OGVMathVector2D.h">
+      <Filter>OpenGL\Header\Mathematics</Filter>
+    </ClInclude>
+    <ClInclude Include="OGVMathematics.h">
+      <Filter>OpenGL\Header\Mathematics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="VisualEngine.cpp">
@@ -127,6 +139,12 @@
     </ClCompile>
     <ClCompile Include="BagRep2D.cpp">
       <Filter>OpenGL\Source\Visualization</Filter>
+    </ClCompile>
+    <ClCompile Include="OGVMathVector2D.cpp">
+      <Filter>OpenGL\Source\Mathematics</Filter>
+    </ClCompile>
+    <ClCompile Include="OGVMathematics.cpp">
+      <Filter>OpenGL\Source\Mathematics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

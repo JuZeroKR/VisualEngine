@@ -54,18 +54,18 @@ public:
 	BagRep2D* m_pMainBagRep2D;
 
 	// Line
+	vector<OGV2DPoint> m_TempPoints;
 	OGV2DPoint tempPoint;
 	OGV2DPoint tempPoint2;
 
+	int m_BezierCount;
 
 	enum Status {
 		Draw_Noting,
 		Draw_Point,
 		Draw_Line1,
 		Draw_Line2,
-		Draw_BeizerCurve1,
-		Draw_BeizerCurve2,
-		Draw_BeizerCurve3
+		Draw_BeizerCurve,
 	};
 
 	Status m_CurStatus;
