@@ -75,4 +75,6 @@ public:
 	afx_msg void OnBnClickedButtonline();
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg void OnBnClickedButtonbeizercurve();
+//	afx_msg void OnSizing(UINT fwSide, LPRECT pRect);
+	afx_msg void OnSize(UINT nType, int cx, int cy);
 };

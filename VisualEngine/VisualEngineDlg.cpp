@@ -74,6 +74,8 @@ BEGIN_MESSAGE_MAP(CVisualEngineDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTONLine, &CVisualEngineDlg::OnBnClickedButtonline)
 	ON_WM_MOUSEMOVE()
 	ON_BN_CLICKED(IDC_BUTTONBeizerCurve, &CVisualEngineDlg::OnBnClickedButtonbeizercurve)
+//	ON_WM_SIZING()
+	ON_WM_SIZE()
 END_MESSAGE_MAP()
 
 
@@ -243,8 +245,6 @@ void CVisualEngineDlg::OnLButtonDown(UINT nFlags, CPoint point)
 		m_TempPoints.push_back(tempPoint);
 		if (m_TempPoints.size() == m_BezierCount)
 		{
-
-
 			m_CurStatus = Status::Draw_Noting;
 		}
 		else
@@ -311,4 +311,32 @@ void CVisualEngineDlg::OnBnClickedButtonbeizercurve()
 	GetDlgItem(IDC_EDITBeizerCount)->GetWindowTextW(beizerCount);
 	m_BezierCount = _tstoi(beizerCount);
 
+}
+
+
+//void CVisualEngineDlg::OnSizing(UINT fwSide, LPRECT pRect)
+//{
+//	CDialogEx::OnSizing(fwSide, pRect);
+//
+	// TODO: Add your message handler code here
+//}
+
+
+void CVisualEngineDlg::OnSize(UINT nType, int cx, int cy)
+{
+	CDialogEx::OnSize(nType, cx, cy);
+
+	// TODO: Add your message handler code here
+	CWnd* pCtl = GetDlgItem(IDC_VisualWindow);
+
+	if (!pCtl) { return; }
+
+	CRect rectCtl;
+	pCtl->GetWindowRect(&rectCtl);
+	ScreenToClient(&rectCtl);
+
+	pCtl->MoveWindow(rectCtl.left, rectCtl.top, cx - 2 * rectCtl.left, cy - rectCtl.top - rectCtl.left, TRUE);
+	//pCtl->SetWindowPos(nullptr, 0, 0, )
+
+	return;
 }

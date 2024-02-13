@@ -78,8 +78,8 @@ OGVViewer::OGVViewer(CDialog* pMainWindow)
 
 void OGVViewer::Draw()
 {
-	DrawPoints();
-	DrawLines();
+	//DrawPoints();
+	//DrawLines();
 	// Reframe();
 	DrawBeizerCurves();
 	SwapBuffer();
